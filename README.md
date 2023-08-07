@@ -61,3 +61,10 @@ go build -o hello main.go
     ```
     git push -f origin main
     ```
+
+    - First time pushing to github? Then configure your username and email
+
+    ```
+       git config --global user.name Jiten
+       git config --global user.email JitenP@Outlook.Com
+    ```
