@@ -68,3 +68,8 @@ go build -o hello main.go
        git config --global user.name Jiten
        git config --global user.email JitenP@Outlook.Com
     ```
+
+- To clone git repo
+    ```
+        git clone https://github.com/JitenPalaparthi/victoria-secrets-training-golang
+    ```

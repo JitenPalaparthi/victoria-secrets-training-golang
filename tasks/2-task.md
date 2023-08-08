@@ -1,0 +1,1 @@
+- Use fmt package functions like Print, Println, Printf and identify the differences
