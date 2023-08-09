@@ -1,0 +1,2 @@
+- In a given array find the biggest and smallest number in an array.
+- Write a function getBigAndSmall(arr [10]int)(int,int)
