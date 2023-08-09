@@ -36,4 +36,18 @@ func main() {
 		println("Grade A")
 	}
 
+	var str1 = "Hello World"
+
+	fmt.Println(&str1)
+	a := str1[0]
+
+	fmt.Println(&a)
+
+	str1 = "Victoria Secrets & Co and also trying to understand what it is trying to understand what it is"
+
+	fmt.Println(&str1)
+	a = str1[0]
+
+	fmt.Println(&a)
+
 }

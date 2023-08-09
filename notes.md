@@ -22,3 +22,20 @@
 
 - func can return more than one return value
 - func return values are in stack or in heap is decided by go runtime
+
+# Switch
+
+- switch in go is more powerful than other programming switch cases
+- can also write conditions in case, but the switch must me empty switch
+- break is imposed by default.No need to give break.
+- can also have case values comma saperated
+- If you dont want to break the flow , similar to removing break in other programming languages, you can impose fallthrough keyword.
+- removing break in other programming languages is equal to giving fallthrough
+- fallthrough can also lead to false negative.
+
+
+# Misc
+
+- func GreetMe()  Pascal case
+- func greetMe()  camel Case
+- func greet_me() snake_case
