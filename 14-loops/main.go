@@ -93,7 +93,6 @@ func main() {
 		}
 		j++
 	}
-
 }
 
 // for loop

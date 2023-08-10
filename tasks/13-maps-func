@@ -1,0 +1,9 @@
+func Delete(map, key) bool, error
+if map is nil return error
+if key exists and delete return true, nil
+if key does not exist return false and nil
+
+func Update(map,key,value) bool,error
+if map is nil then return error
+if key does not exist return false and also error as key does not exist hence cannot Update
+if key exists update the value and return true and nil
