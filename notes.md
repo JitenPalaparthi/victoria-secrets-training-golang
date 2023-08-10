@@ -65,4 +65,9 @@
     _ is a blank identifier. This is a blank variable
 
 - back quote
-    
+
+# method receivers
+
+- receives are call by value unless they are references
+- receivers can be for any user defined type. Not only confined to struct types
+

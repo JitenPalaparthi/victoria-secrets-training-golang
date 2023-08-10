@@ -28,8 +28,3 @@ func main() {
 
 	fmt.Println(mymap)
 }
-
-// func Delete(map, key) bool, error
-// if map is nil return error
-// if key exists and delete return true, nil
-// if key does not exist return false and nil
