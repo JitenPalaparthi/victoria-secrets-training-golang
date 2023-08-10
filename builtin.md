@@ -1,3 +1,3 @@
 # Buiitin functions
 
-print, println, len,
+print, println, len,cap,make, append, copy, delete,new
