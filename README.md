@@ -73,3 +73,8 @@ go build -o hello main.go
     ```
         git clone https://github.com/JitenPalaparthi/victoria-secrets-training-golang
     ```
+
+
+- To create a library 
+    - Create a repo in github.com
+    - clone the repo in your local system

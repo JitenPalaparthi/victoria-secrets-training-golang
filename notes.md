@@ -71,3 +71,9 @@
 - receives are call by value unless they are references
 - receivers can be for any user defined type. Not only confined to struct types
 
+
+# go mod
+
+- Do not push replace directive to remote repo.
+- replace is only for the development purpose. It ease dependency package changes.
+- To download dependencies use go mod tidy or go get <package path>
