@@ -42,7 +42,7 @@ func (f *FW) Write(bytes []byte) (n int, err error) {
 	if err != nil {
 		return 0, err
 	}
-	return 0, nil
+	return len(bytes), nil
 
 }
 
@@ -57,6 +57,6 @@ func (s *SMS) Write(bytes []byte) (n int, err error) {
 
 	fmt.Println("Message has been sent:", string(bytes))
 
-	return 0, nil
+	return len(bytes), nil
 
 }
