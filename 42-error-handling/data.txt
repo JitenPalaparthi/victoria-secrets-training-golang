@@ -1,0 +1,19 @@
+A process thread is an operating system construct. As threads within a process are run and suspended on the CPU their "state" is saved and restored. When a thread is suspended the stack and register states are saved, when the thread is ready to run again its stack and register states are restored to the CPU.
+
+Across threads within a process the global and heap regions are common and information can be shared between threads. The execution state (stack and registers) is not shared because if it were then all you would have is a bunch of threads running exactly the same code rather than different code.
+
+The "stack and registers" at this level are the saved states, not the physical CPU registers.
+A thread is a unit of execution that shares code, data and OS resources with other threads in the same process. A thread has its own program counter (PC), register set and stack space1. The PC tracks the address of the next instruction to be executed by a thread. The register set includes general-purpose registers, stack pointers and special-purpose registers. They hold function arguments during the execution of the thread2. When the OS switches from one thread to another, it copies the state of the finishing thread, including the current values of all the registers into its descriptor, then copies the values from the descriptor of another thread into the registers
+
+
+A stack pointer is a memory unit in the address register that stores the address of the top of the stack³. In the context of threads, each thread has its own stack, and the stack pointer points to the top of the stack for the currently executing thread³. Since each thread has its own stack, the stack pointer needs to be saved and restored on a context switch to ensure that the new thread uses the correct stack³. Is there anything else you would like to know? 😊
+
+
+To see processos ps -ef
+
+
+Source: Conversation with Bing, 11/8/2023
+(1) Operating System: GATE CSE 2023 | Question: 12. https://gateoverflow.in/399300/gate-cse-2023-question-12.
+(2) c - thread stack pointer - Stack Overflow. https://stackoverflow.com/questions/6700966/thread-stack-pointer.
+(3) c++ - Threads and pointers (Understanding how threads work) - Stack .... https://stackoverflow.com/questions/23378177/threads-and-pointers-understanding-how-threads-work.
+(4) What resources are shared between threads? - Stack Overflow. https://stackoverflow.com/questions/1762418/what-resources-are-shared-between-threads.
