@@ -37,6 +37,8 @@ func main() {
 	ehandler := &handlers.EmployeeHandler{}
 	http.HandleFunc("/employee/add", ehandler.AddEmployee)
 
+	http.HandleFunc("/employee/delete", ehandler.DeleteEmployee)
+
 	//go http.ListenAndServe(":9092", nil)
 
 	err := http.ListenAndServe("0.0.0.0:"+PORT, nil)

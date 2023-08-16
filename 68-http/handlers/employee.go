@@ -3,6 +3,7 @@ package handlers
 import (
 	"demo/models"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"syscall"
@@ -63,4 +64,20 @@ func (eh *EmployeeHandler) AddEmployee(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+}
+
+func (eh *EmployeeHandler) DeleteEmployee(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
+	id := values.Get("id")
+	if id == "" {
+		w.Write([]byte("invalid id"))
+		w.WriteHeader(400)
+		return
+	}
+	//fmt.Println(id[0])
+	fmt.Fprintln(w, "id query param is-> ", id)
+
+	// Delete that row from the file
+	// if no row with that id then it should say "details not found"
+
 }
