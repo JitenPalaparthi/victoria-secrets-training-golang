@@ -1,0 +1,11 @@
+2023/08/17 15:48:50 main.go:45: Server started  and listening on port 50090
+2023/08/17 15:49:13 main.go:59: unimplemented http method.
+2023/08/17 15:49:14 main.go:59: unimplemented http method.
+2023/08/17 15:49:15 main.go:59: unimplemented http method.
+2023/08/17 15:49:16 main.go:59: unimplemented http method.
+2023/08/17 15:49:17 main.go:59: unimplemented http method.
+2023/08/17 15:49:21 main.go:65: ping pong successfully hit.
+2023/08/17 15:50:56 main.go:38: Server started  and listening on port 50090
+2023/08/17 15:51:06 main.go:58: ping pong successfully hit.
+2023/08/17 15:51:09 main.go:58: ping pong successfully hit.
+2023/08/17 16:21:52 main.go:38: Server started  and listening on port 50090

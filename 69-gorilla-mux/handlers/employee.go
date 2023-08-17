@@ -3,7 +3,6 @@ package handlers
 import (
 	"demo/models"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -32,6 +31,23 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 			return
 		}
 
+		// now
+
+		e := new(models.Employee)
+		err := json.NewDecoder(r.Body).Decode(e)
+		if err != nil {
+			w.WriteHeader(400)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		err = e.Validate()
+		if err != nil {
+			w.WriteHeader(400)
+			w.Write([]byte(err.Error()))
+			return
+		}
+
+		eh.MU.Lock()
 		bytes, err := os.ReadFile("employees/employee-id")
 
 		if err != nil {
@@ -47,26 +63,8 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 			w.Write([]byte(err.Error()))
 			return
 		}
-		fmt.Println(_id) // now
 
-		e := new(models.Employee)
-		err = json.NewDecoder(r.Body).Decode(e)
-		if err != nil {
-			w.WriteHeader(400)
-			w.Write([]byte(err.Error()))
-			return
-		}
-		err = e.Validate()
-		if err != nil {
-			w.WriteHeader(400)
-			w.Write([]byte(err.Error()))
-			return
-		}
-
-		eh.MU.Lock()
 		e.Id = _id + 1
-		eh.MU.Unlock()
-
 		e.Status = "active"
 		e.LastModified = time.Now().Unix()
 
@@ -108,6 +106,7 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 		chanId <- e.Id
 		w.WriteHeader(201)
 		w.Write(buf)
+		eh.MU.Unlock()
 	}
 
 }

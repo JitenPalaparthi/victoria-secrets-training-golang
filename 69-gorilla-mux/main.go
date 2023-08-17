@@ -65,12 +65,15 @@ func main() {
 	go srv.ListenAndServe()
 
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, os.Interrupt, syscall.SIGKILL)
 	<-c
 	//context.TODO()
 	//context.WithCancel(context.Background(), wait)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), wait)
+	defer func() {
+		signal.Stop(c)
+		cancel()
+	}()
 	srv.Shutdown(ctx)
 
 	fmt.Println("Sever is shutting down")
