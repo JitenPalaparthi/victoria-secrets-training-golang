@@ -8,11 +8,14 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 )
 
-type EmployeeHandler struct{}
+type EmployeeHandler struct {
+	MU *sync.Mutex
+}
 
 func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +62,11 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 			w.Write([]byte(err.Error()))
 			return
 		}
+
+		eh.MU.Lock()
 		e.Id = _id + 1
+		eh.MU.Unlock()
+
 		e.Status = "active"
 		e.LastModified = time.Now().Unix()
 

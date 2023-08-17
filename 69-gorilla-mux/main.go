@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"demo/handlers"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 
@@ -20,8 +23,9 @@ var (
 )
 
 func main() {
-
+	var wait time.Duration
 	flag.StringVar(&PORT, "port", "50080", "--port=50080 or -port=50080")
+	flag.DurationVar(&wait, "wait", time.Second*15, "--wait=2 or -wait=2")
 	flag.Parse()
 	chanId = make(chan int)
 
@@ -49,6 +53,7 @@ func main() {
 	})
 
 	eh := new(handlers.EmployeeHandler)
+	eh.MU = new(sync.Mutex)
 	router.HandleFunc("/employee/add", eh.Add(chanId))
 
 	router.HandleFunc("/employee/delete/{id}", func(w http.ResponseWriter, r *http.Request) {})
@@ -56,10 +61,20 @@ func main() {
 
 	fmt.Println("Server started and listning on port->", PORT)
 	go IncrementEmployeeId(chanId)
-	if err := srv.ListenAndServe(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+
+	go srv.ListenAndServe()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
+	//context.TODO()
+	//context.WithCancel(context.Background(), wait)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+	srv.Shutdown(ctx)
+
+	fmt.Println("Sever is shutting down")
+	os.Exit(0)
 
 }
 
