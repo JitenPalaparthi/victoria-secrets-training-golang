@@ -10,6 +10,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type EmployeeHandler struct {
@@ -36,8 +38,9 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 		e := new(models.Employee)
 		err := json.NewDecoder(r.Body).Decode(e)
 		if err != nil {
+			glog.Errorln(err)
 			w.WriteHeader(400)
-			w.Write([]byte(err.Error()))
+			w.Write([]byte("there seems to be some thing went wrong.Please try again or contact admin"))
 			return
 		}
 		err = e.Validate()
@@ -107,6 +110,7 @@ func (eh *EmployeeHandler) Add(chanId chan int) func(http.ResponseWriter, *http.
 		w.WriteHeader(201)
 		w.Write(buf)
 		eh.MU.Unlock()
+
 	}
 
 }
