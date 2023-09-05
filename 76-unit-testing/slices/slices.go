@@ -78,3 +78,72 @@ func (si SliceInt) Max() (int, error) {
 
 	return max, nil
 }
+
+func (si SliceInt) SecondBiggest() (int, error) {
+
+	if len(si) == 1 {
+		return si[0], nil
+	} else if len(si) == 2 {
+		if si[0] > si[1] {
+			return si[1], nil
+		}
+		return si[0], nil
+	}
+
+	max, err := si.Max() // get the maximum number
+	if err != nil {
+		return 0, err
+	}
+
+	slice := make([]int, 0) // create a another slice
+
+	for _, v := range si {
+		if v != max {
+			slice = append(slice, v) // add eleents from si to slice exept the max number
+		}
+	}
+
+	max, err = SliceInt(slice).Max() // the the max number from the second slice
+
+	return max, err
+}
+
+func (si SliceInt) SecondBiggest2() (int, error) {
+
+	if si == nil {
+		return 0, errors.New("nil slice")
+	}
+
+	if len(si) == 1 {
+		return si[0], nil
+	}
+
+	if len(si) == 2 {
+		if si[0] > si[1] {
+			return si[1], nil
+		}
+		return si[0], nil
+	}
+
+	var max, secondMax int
+	if si[0] > si[1] {
+		max = si[0]
+		secondMax = si[1]
+	} else {
+		max = si[1]
+		secondMax = si[0]
+	}
+	for i := 2; i < len(si); i++ {
+
+		if si[i] > max {
+			secondMax = max
+			max = si[i]
+		} else {
+			if si[i] > secondMax {
+				secondMax = si[i]
+			}
+		}
+	}
+
+	return secondMax, nil
+}

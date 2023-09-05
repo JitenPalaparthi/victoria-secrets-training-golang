@@ -33,6 +33,11 @@ go test -timeout 30s -run ^TestReverseString$ demo/strings
 ```
 go test demo/strings
 ```
+- Benchmarking 
+
+```
+go test -benchmem -run=^$ -bench ^BenchmarkSecondBiggest$ demo/slices
+```
 
 # Task 
 
