@@ -38,17 +38,14 @@ go test demo/strings
 
 - Create a package called slice 
 
-- Fill the slice with data 
+- Fill the slice with data.
 
 - Write a method to find the reverse of the slice 
 
- - Write a method to find the smallest number in the slice
+- Write a method to find the smallest number in the slice
 
- - Write a method to fund the biggest number in the slice
+- Write a method to fund the biggest number in the slice
 
- - write a method to find the sum of all elements in the slice
+- write a method to find the sum of all elements in the slice
 
-
- - Write unit tests for all of them
-
- 
+- Write unit tests for all of them
