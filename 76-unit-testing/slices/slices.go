@@ -10,8 +10,22 @@ import (
 
 type SliceInt []int // SliceInt is a user defined type
 
+func (si SliceInt) Fill(nums ...int) SliceInt {
+
+	//if si == nil {
+	si = make(SliceInt, len(nums))
+	//}
+
+	for i := range si {
+		si[i] = nums[i]
+	}
+
+	return si
+
+}
+
 // Fill fills the slice with random numbers
-func (si SliceInt) Fill(len int) SliceInt {
+func (si SliceInt) RandFill(len int) SliceInt {
 
 	if si == nil {
 		si = make(SliceInt, len)
