@@ -39,6 +39,28 @@ go test demo/strings
 go test -benchmem -run=^$ -bench ^BenchmarkSecondBiggest$ demo/slices
 ```
 
+- time based bench mark
+
+```
+go test -bench=. -benchtime=10s
+```
+
+- count based  benchmark
+
+```
+go test -bench=. -count=10
+```
+
+- benchtest memory
+
+```
+go test -bench=. -benchtime=10s -benchmem
+```
+|Benchmark test name| Number of Loop Iterations| NanoSecond per operation| Bytes per Operations| Allocations for Operation|
+|-------------------|--------------------------|------------------------|-----------------------|-----------------|
+|BenchmarkSecondBiggest-12|        1851162|              6073 ns/op|            2040 B/op|          8 allocs/op|
+|BenchmarkSecondBiggest2-12|      14312559|               738.9 ns/op|             0 B/op|          0 allocs/op|
+
 # Task 
 
 - Create a package called slice 
