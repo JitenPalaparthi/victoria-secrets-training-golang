@@ -143,6 +143,7 @@ func (si SliceInt) SecondBiggest2() (int, error) {
 				secondMax = si[i]
 			}
 		}
+
 	}
 
 	return secondMax, nil

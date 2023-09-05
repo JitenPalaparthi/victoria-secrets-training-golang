@@ -1,6 +1,7 @@
 package main
 
 import (
+	"demo/activity"
 	"demo/slices"
 	"fmt"
 )
@@ -15,5 +16,8 @@ func main() {
 
 	slice1 = slice1.InferDefaults(1)
 	fmt.Println(slice1)
+
+	a1 := new(activity.ActivityType)
+	fmt.Println(a1.GetActivity("https://www.boredapi.com/api/activity"))
 
 }

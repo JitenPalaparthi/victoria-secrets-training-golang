@@ -33,6 +33,32 @@ go test -timeout 30s -run ^TestReverseString$ demo/strings
 ```
 go test demo/strings
 ```
+
+
+- To code coverage
+
+```
+go test ./... -cover
+```
+- To cover package
+
+```
+cd slices
+go test -cover -coverpkg .
+```
+
+- Test cover profile
+
+```
+go test -cover -coverpkg ./... -coverprofile coverage.out
+```
+
+- Test cover profile in HTML
+
+```
+go tool cover -html=coverage.out -o coverage.html
+```
+
 - Benchmarking 
 
 ```
@@ -61,18 +87,30 @@ go test -bench=. -benchtime=10s -benchmem
 |BenchmarkSecondBiggest-12|        1851162|              6073 ns/op|            2040 B/op|          8 allocs/op|
 |BenchmarkSecondBiggest2-12|      14312559|               738.9 ns/op|             0 B/op|          0 allocs/op|
 
-# Task 
 
-- Create a package called slice 
 
-- Fill the slice with data.
+- cover profile information
 
-- Write a method to find the reverse of the slice 
+|covererage file|from line:column to line:colum|number of statements|count|
+|---------------|------------------------------|--------------------|-----|
+|demo/slices/slices.go|13.47,19.20|2|1|
+|demo/slices/slices.go|19.20,21.3|1|1|
 
-- Write a method to find the smallest number in the slice
 
-- Write a method to fund the biggest number in the slice
+# Gomock
 
-- write a method to find the sum of all elements in the slice
+- Install a tool called mockgen
 
-- Write unit tests for all of them
+```
+go install go.uber.org/mock/mockgen@latest
+```
+
+Step-1 : Install mockgen tool
+
+Step-2: Which ever the package that is using thirdparty api or integrations, run mockgen tool
+
+Step-3: run 
+
+```
+go generate ./...
+```
