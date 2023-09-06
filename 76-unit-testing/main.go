@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+//go:generate ls -a
 func main() {
 
 	var slice1 slices.SliceInt
