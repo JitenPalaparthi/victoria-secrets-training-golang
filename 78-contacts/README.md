@@ -14,11 +14,13 @@ docker run -d --name=mysql1 -p 33306:3306 -e MYSQL_ROOT_PASSWORD=admin123 -e MYS
 ```
 docker run -d --name=adminui -p 48088:8080 adminer
 ```
-
+```
 docker run -d --name=mysql1 -p 33306:3306 -e MYSQL_ROOT_PASSWORD=admin123 -e MYSQL_DATABASE=contactsdb -e MYSQL_USER=admin -e MYSQL_PASSWORD=admin123 docker.io/library/mysql
+```
 
 
 # Podman
+
 - Steps to follow to use podman. Give docker hub user and password
 
 ```
@@ -26,6 +28,7 @@ podman login docker.io
 ```
 
 - Pull mysql and adminer containers
+
 ```
 podman pull --tls-verify=false docker.io/library/mysql
 podman pull --tls-verify=false docker.io/library/adminer
