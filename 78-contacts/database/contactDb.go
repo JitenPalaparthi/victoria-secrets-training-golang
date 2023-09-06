@@ -25,6 +25,20 @@ func (c *ContactDB) AddContact(contact *models.Contact) (int64, error) {
 	return id, nil
 }
 
+func (c *ContactDB) DeleteContact(id int) (int64, error) {
+	//result, err := c.DB.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
+	result, err := c.Exec("DELETE from contacts where id=?", id)
+
+	if err != nil {
+		return -1, err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return -1, err
+	}
+	return affected, nil
+}
+
 func (c *ContactDB) GetContactById(id int) (*models.Contact, error) {
 
 	row := c.QueryRow("SELECT id,name,email,mobile,status,lastModified FROM contacts WHERE id = ?", id)
