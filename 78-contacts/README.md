@@ -41,3 +41,5 @@ podman run -d --name=mysql1 -p 33306:3306 -e MYSQL_ROOT_PASSWORD=admin123 -e MYS
 ```
 podman run -d --name=adminui -p 48088:8080 adminer
 ```
+
+

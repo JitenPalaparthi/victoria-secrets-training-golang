@@ -11,18 +11,22 @@ type ContactDB struct {
 	*sql.DB // promoted field
 }
 
-func (c *ContactDB) AddContact(contact *models.Contact) (int64, error) {
+func (c *ContactDB) AddContact(contact *models.Contact) (*models.Contact, error) {
 	//result, err := c.DB.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
 	result, err := c.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
 
 	if err != nil {
-		return -1, err
+		return nil, err
 	}
 	id, err := result.LastInsertId()
 	if err != nil {
-		return -1, err
+		return nil, err
 	}
-	return id, nil
+	if id <= 0 {
+		return nil, errors.New("invalid id")
+	}
+
+	return c.GetContactById(int(id))
 }
 
 func (c *ContactDB) DeleteContact(id int) (int64, error) {
@@ -54,3 +58,5 @@ func (c *ContactDB) GetContactById(id int) (*models.Contact, error) {
 
 	return &contact, nil
 }
+
+//docker.io/library/mysql
