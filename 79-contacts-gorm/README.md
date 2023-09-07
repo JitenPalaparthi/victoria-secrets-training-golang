@@ -43,3 +43,9 @@ podman run -d --name=adminui -p 48088:8080 adminer
 ```
 
 
+# Table related notes
+
+- When using GORM then tables are automatically created provided by proper tags.While inserting/creating a first record , AutoMigrate method creates the table in the database.
+- When using database/sql standard pacakge from golang(not gorm) then you have to create the table in the database prior to inserting a record
+- To use postgres 1. Use postgres container. Use environment variables for dabase, username and password. Up and run the container using podman or docker
+- use Postgres driver in GORM to open a connection to postgres
