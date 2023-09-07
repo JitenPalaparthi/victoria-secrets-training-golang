@@ -12,6 +12,9 @@ type ContactDB struct {
 }
 
 func (c *ContactDB) AddContact(contact *models.Contact) (*models.Contact, error) {
+	if c.DB == nil {
+		return nil, ErrNilDB
+	}
 	//result, err := c.DB.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
 	result, err := c.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
 
@@ -30,6 +33,9 @@ func (c *ContactDB) AddContact(contact *models.Contact) (*models.Contact, error)
 }
 
 func (c *ContactDB) DeleteContact(id int) (int64, error) {
+	if c.DB == nil {
+		return -1, ErrNilDB
+	}
 	//result, err := c.DB.Exec("INSERT INTO contacts(name,email,mobile,status,lastModified) VALUES(?,?,?,?,?)", contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
 	result, err := c.Exec("DELETE from contacts where id=?", id)
 
@@ -44,7 +50,9 @@ func (c *ContactDB) DeleteContact(id int) (int64, error) {
 }
 
 func (c *ContactDB) GetContactById(id int) (*models.Contact, error) {
-
+	if c.DB == nil {
+		return nil, ErrNilDB
+	}
 	row := c.QueryRow("SELECT id,name,email,mobile,status,lastModified FROM contacts WHERE id = ?", id)
 
 	contact := models.Contact{}

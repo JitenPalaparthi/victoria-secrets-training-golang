@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"time"
 
@@ -11,6 +12,10 @@ import (
 const (
 	Max_No_Of_Retries  = 5
 	Max_Time_For_Retry = 5 // 10 sec
+)
+
+var (
+	ErrNilDB = errors.New("nil db object")
 )
 
 func GetConnection(dsn string) (*sql.DB, error) {
