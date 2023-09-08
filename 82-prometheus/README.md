@@ -19,3 +19,7 @@ firefox http://localhost:9090
 ```
 docker run -d -v /home/jiten/workspace/personal/training/victoria-secrets-golang/82-prometheus/prometheus.yml:/etc/prometheus/prometheus.yml --network=host prom/prometheus
 ```
+
+-- Presentation link
+
+https://docs.google.com/presentation/d/1zVaXK_s4owQGyK1Pj42aRTPwrynbJRkbOhrw-9JnvYo/edit?usp=sharing
