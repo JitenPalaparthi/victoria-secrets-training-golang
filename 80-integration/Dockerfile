@@ -15,9 +15,9 @@ WORKDIR /
 
 COPY --from=build-stage /app/service /app/service
 
-ENV PORT=58089
+# ENV PORT=58089
 
-EXPOSE ${PORT}
+# EXPOSE ${PORT}
 
 #USER nonroot:nonroot
 
