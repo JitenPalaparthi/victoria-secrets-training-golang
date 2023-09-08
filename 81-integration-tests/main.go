@@ -10,21 +10,24 @@ func main() {
 	_, err := cmd.Output()
 	fmt.Println(err)
 
-	cmd = exec.Command("docker", "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "mysql2") // create a command
-	output, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err)
-	} // execute command
-	fmt.Println(string(output)) //print command output
 	//docker inspect mysql2 | grep -w "IPAddress" | awk '{ print $2 }' | head -n 1 | cut -d "," -f1
 	cmd = exec.Command("docker", "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "mysql3") // create a command
 	ip, err := cmd.Output()
 	if err != nil {
 		fmt.Println(err)
 	}
-	cmd = exec.Command("docker", "run", "-d", "--name=app1", "-e", "PORT=58089", "-e", "DSN=admin:admin123@tcp("+string(ip)+":34406)/contactsdb?allowNativePasswords=false&checkConnLiveness=false&maxAllowedPacket=0", "jpalaparthi/app:v0.0.1")
+
+	dns := fmt.Sprintf("admin:admin123@tcp(%v:3606)/contactsdb?allowNativePasswords=false&checkConnLiveness=false&maxAllowedPacket=0", string(ip))
+	cmd = exec.Command("docker", "run", "-d", "-p", "58090:58989", "--name=app1", "-e", "PORT=58089", "-e", "DSN="+dns, "jpalaparthi/app:v0.0.2")
 
 	_, err = cmd.Output()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	cmd = exec.Command("docker", "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "app1") // create a command
+	ip1, err := cmd.Output()
+	fmt.Println(string(ip1))
 	if err != nil {
 		fmt.Println(err)
 	}

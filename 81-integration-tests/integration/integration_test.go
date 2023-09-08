@@ -1,8 +1,9 @@
 package integration_test
 
 import (
+	"demo/models"
+	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"os/exec"
 	"strings"
@@ -17,67 +18,38 @@ func TestIntegration(t *testing.T) {
 	RunSpecs(t, "Contacts Integration Suite")
 }
 
-// var _ = BeforeSuite(func() {
-// 	// create two docker instances
-// 	// teardown two docker instances
-// 	//docker run -d --name=mysql1 -p 33306:3306 -e MYSQL_ROOT_PASSWORD=admin123 -e MYSQL_DATABASE=contactsdb -e MYSQL_USER=admin -e MYSQL_PASSWORD=admin123 docker.io/library/mysql
-// 	cmd := exec.Command("docker", "run", "-d", "--name=mysql3", "-p", "34406:3306", "-e", "MYSQL_ROOT_PASSWORD=admin123", "-e", "MYSQL_USER=admin", "-e", "MYSQL_PASSWORD=admin123", "docker.io/library/mysql")
-// 	_, err := cmd.Output()
-// 	Fail(err.Error())
-// })
-
-// var _ = AfterSuite(func() {
-
-// })
-
 var _ = Describe("Integration", func() {
+
+	container := "docker"
+
 	//fmt.Println("Hello")
 	BeforeEach(func() {
-		cmd := exec.Command("docker", "run", "-d", "--name=mysql3", "-p", "34406:3306", "-e", "MYSQL_ROOT_PASSWORD=admin123", "-e", "MYSQL_USER=admin", "-e", "MYSQL_PASSWORD=admin123", "docker.io/library/mysql")
+
+		cmd := exec.Command(container, "run", "-d", "--name=mysql3", "-p", "34406:3306", "-e", "MYSQL_ROOT_PASSWORD=admin123", "-e", "MYSQL_USER=admin", "-e", "MYSQL_PASSWORD=admin123", "-e", "MYSQL_DATABASE=contactsdb", "docker.io/library/mysql")
 		id, err := cmd.Output()
 		fmt.Println(id)
 		if err != nil {
 			Fail(err.Error())
 		}
 
-		cmd = exec.Command("docker", "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "mysql3") // create a command
+		cmd = exec.Command(container, "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "mysql3") // create a command
 		ip, err := cmd.Output()
 		if err != nil {
 			Fail(err.Error())
 		}
+		dns := fmt.Sprintf("admin:admin123@tcp(%v:3306)/contactsdb?allowNativePasswords=false&checkConnLiveness=false&maxAllowedPacket=0", string(ip))
 
-		cmd = exec.Command("docker", "run", "-d", "--name=app1", "-e", "PORT=58089", "-e", `DSN=admin:admin123@tcp(`+string(ip)+`:34406)/contactsdb?allowNativePasswords=false&checkConnLiveness=false&maxAllowedPacket=0`, "jpalaparthi/app:v0.0.1")
+		cmd = exec.Command(container, "run", "-d", "--name=app1", "-p", "58089:58089", "-e", "DSN="+dns, "jpalaparthi/app:v0.0.2")
 
 		_, err = cmd.Output()
 		if err != nil {
+			fmt.Println(string(err.Error()))
 			Fail(err.Error())
 		}
 	})
 	AfterEach(func() {
-		cmd := exec.Command("docker", "rm", "-f", "mysql3 app1")
+		cmd := exec.Command(container, "rm", "-f", "mysql3", "app1")
 		_, err := cmd.Output()
-		if err != nil {
-			Fail(err.Error())
-		}
-	})
-
-	It("testing docker mysql instance", func() {
-		cmd := exec.Command("docker", "ps")
-		ps, err := cmd.Output()
-		if !strings.Contains(string(ps), "mysql3") {
-			Fail("mysql docker instance does not exist")
-		}
-		if err != nil {
-			Fail(err.Error())
-		}
-	})
-
-	It("testing docker app instance", func() {
-		cmd := exec.Command("docker", "ps")
-		ps, err := cmd.Output()
-		if !strings.Contains(string(ps), "app1") {
-			Fail("app docker instance does not exist")
-		}
 		if err != nil {
 			Fail(err.Error())
 		}
@@ -86,7 +58,15 @@ var _ = Describe("Integration", func() {
 	// insert contact
 	It("create contact", func() {
 
-		url := "localhost:58089/contact"
+		cmd := exec.Command(container, "inspect", "-f", `{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, "app1") // create a command
+		ip, err := cmd.Output()
+		if err != nil {
+			Fail(err.Error())
+		}
+		ip = []byte(strings.ReplaceAll(string(ip), "\n", ""))
+
+		//url := "http://" + string(ip) + ":58089/contact"
+		url := "http://127.0.0.1:58089/contact"
 		method := "POST"
 
 		payload := strings.NewReader(`{
@@ -109,14 +89,20 @@ var _ = Describe("Integration", func() {
 		}
 		defer res.Body.Close()
 
-		body, err := io.ReadAll(res.Body)
+		contact := new(models.Contact)
+
+		err = json.NewDecoder(res.Body).Decode(&contact)
+
 		if err != nil {
 			Fail(err.Error())
 		}
-		fmt.Println(string(body))
 
-		if !strings.Contains(string(body), "1") {
-			Fail("unable to get the id")
+		if contact == nil {
+			Fail("no data found")
+		}
+
+		if contact.Email != "Abhi@victoria.com" || contact.Name != "Abhinav" || contact.Mobile != "32432423" {
+			Fail("data does not match")
 		}
 
 	})

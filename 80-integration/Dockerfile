@@ -15,7 +15,7 @@ WORKDIR /
 
 COPY --from=build-stage /app/service /app/service
 
-ENV PORT=8089
+ENV PORT=58089
 
 EXPOSE ${PORT}
 
