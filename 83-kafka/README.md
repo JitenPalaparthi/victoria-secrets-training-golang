@@ -23,3 +23,16 @@ or
 podman-compose up -d
 ```
 
+- To run kafka without podman compose or docker compose
+
+- Kafka
+```
+podman run -d --name=kafka_b -p 9092:9092 -p 9094:9094  --env-file ./kafka.env docker.io/bitnami/kafka:3.4
+```
+
+- Kafka UI
+
+```
+podman run -d --name=kafka_ui -p 48080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+```
+
