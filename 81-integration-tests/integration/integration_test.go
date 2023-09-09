@@ -47,17 +47,17 @@ var _ = Describe("Integration", func() {
 		}
 	})
 	AfterEach(func() {
-		// cmd := exec.Command(container, "rm", "-f", "mysql3", "app1")
-		// _, err := cmd.Output()
-		// if err != nil {
-		// 	Fail(err.Error())
-		// }
+		cmd := exec.Command(container, "rm", "-f", "mysql3", "app1")
+		_, err := cmd.Output()
+		if err != nil {
+			Fail(err.Error())
+		}
 	})
 
 	// insert contact
 	It("create contact", func() {
 
-		resp, err := http.Get("http://localhost:50091/ping")
+		resp, err := http.Get("http://127.0.0.1:50091/ping")
 		if err != nil {
 			Fail("1------>>" + err.Error())
 		}
