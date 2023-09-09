@@ -36,3 +36,9 @@ podman run -d --name=kafka_b -p 9092:9092 -p 9094:9094  --env-file ./kafka.env d
 podman run -d --name=kafka_ui -p 48080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
 ```
 
+
+- To delete all containers
+
+```
+podman rm -f $(podman ps -aq)
+```
