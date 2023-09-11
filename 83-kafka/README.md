@@ -42,3 +42,10 @@ podman run -d --name=kafka_ui -p 48080:8080 -e DYNAMIC_CONFIG_ENABLED=true prove
 ```
 podman rm -f $(podman ps -aq)
 ```
+
+
+podman pull --tls-verify=false docker.io/bitnami/kafka:3.4
+
+podman pull --tls-verify=false  provectuslabs/kafka-ui
+
+podman run --name=kafka_b -p 9092:9092 -p 9094:9094  --env-file ./kafka.env docker.io/bitnami/kafka:3.4
