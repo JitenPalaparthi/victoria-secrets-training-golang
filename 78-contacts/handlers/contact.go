@@ -32,6 +32,7 @@ func (ch *ContactHandler) AddContact(c *gin.Context) {
 	c.JSON(201, contact)
 	//c.XML(200, contact)
 	//c.String(200, "%v,%v,%v,%v,%v,%v", contact.Id, contact.Name, contact.Email, contact.Mobile, contact.Status, contact.LastModified)
+	// todo write code to write a produce here
 	return
 	//json.NewDecoder(c.Request.Body).Decode(contact)
 }
