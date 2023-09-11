@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	topic = "contact-create"
+	topic = "contact-create-email"
 	group = "contact-create-email"
 )
 
@@ -32,7 +32,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println(string(message.Value))
+		fmt.Println("sending email: -->>>>>>> " + string(message.Value))
 	}
 
 }
